@@ -1,0 +1,98 @@
+{% extends 'stream/base.html' %}
+
+{% block content %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #F0F8FF; /* Alice Blue */
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    form {
+        background-color: #00308F; /* Navy Blue */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        width: 300px;
+        color: #F0F8FF; /* Alice Blue */
+    }
+
+    h1 {
+        text-align: center;
+        color: #7CB9E8; /* Light Blue */
+    }
+
+    label {
+        font-size: 14px;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #007FFF; /* Azure Blue */
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        background-color: #3457D5; /* Blue */
+        color: #F0F8FF;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    button:hover {
+        background-color: #007FFF; /* Azure Blue */
+    }
+
+    .register-link {
+        text-align: center;
+        margin-top: 10px;
+        font-size: 14px;
+    }
+
+    .register-link a {
+        color: #007FFF;
+        text-decoration: none;
+    }
+
+    .register-link a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<form method="POST" onsubmit="return validateForm()">
+    {% csrf_token %}
+    <h1>Log In</h1>
+    {{ form.as_p }}
+    <button type="submit">Login</button>
+</form>
+<div class="register-link">
+    Need an account? <a href="{% url 'register' %}">Register</a>
+</div>
+
+<script>
+    function validateForm() {
+        const inputs = document.querySelectorAll('input');
+        for (let input of inputs) {
+            if (input.value.trim() === '') {
+                alert('All fields are required.');
+                return false;
+            }
+        }
+        return true;
+    }
+</script>
+{% endblock content %}

@@ -1,0 +1,132 @@
+{% extends 'stream/base.html' %}
+{% block content %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #F0F8FF;
+        margin: 0;
+        padding: 0;
+    }
+
+    .register-container {
+        max-width: 400px;
+        margin: 50px auto;
+        background: #FFFFFF;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        padding: 20px;
+    }
+
+    .register-container h1 {
+        text-align: center;
+        color: #00308F;
+        margin-bottom: 20px;
+        font-size: 1.8rem;
+    }
+
+    .register-container form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .register-container form p {
+        margin-bottom: 15px;
+    }
+
+    .register-container form label {
+        font-weight: bold;
+        color: #3457D5;
+        margin-bottom: 5px;
+    }
+
+    .register-container form input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #7CB9E8;
+        border-radius: 5px;
+        outline: none;
+        transition: border-color 0.3s;
+    }
+
+    .register-container form input:focus {
+        border-color: #00308F;
+    }
+
+    .register-container button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        font-size: 1rem;
+        color: #FFFFFF;
+        background-color: #00308F;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .register-container button:hover {
+        background-color: #007FFF;
+    }
+
+    .register-container .signin-link {
+        text-align: center;
+        margin-top: 15px;
+        font-size: 0.9rem;
+        color: #3457D5;
+    }
+
+    .register-container .signin-link a {
+        color: #007FFF;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .register-container .signin-link a:hover {
+        text-decoration: underline;
+    }
+
+    .error-message {
+        color: red;
+        font-size: 0.9rem;
+        text-align: center;
+        margin-top: 10px;
+    }
+</style>
+
+<div class="register-container">
+    <h1>Register</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Sign Up</button>
+        <p class="error-message" id="errorMessage"></p>
+    </form>
+    <div class="signin-link">
+        Already have an account? <a href="{% url 'login' %}">Sign In</a>
+    </div>
+</div>
+
+<script>
+    // Add client-side validation
+    const form = document.querySelector("form");
+    const errorMessage = document.getElementById("errorMessage");
+
+    form.addEventListener("submit", (event) => {
+        const inputs = form.querySelectorAll("input");
+        let hasError = false;
+
+        inputs.forEach(input => {
+            if (input.required && !input.value.trim()) {
+                hasError = true;
+            }
+        });
+
+        if (hasError) {
+            event.preventDefault();
+            errorMessage.textContent = "Please fill out all required fields.";
+        }
+    });
+</script>
+{% endblock content %}

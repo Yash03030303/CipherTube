@@ -1,0 +1,115 @@
+{% extends 'stream/base.html' %}
+{% block content %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #F0F8FF;
+        margin: 0;
+        padding: 0;
+    }
+
+    .profile-container {
+        max-width: 600px;
+        margin: 30px auto;
+        background: #FFFFFF;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        padding: 20px;
+    }
+
+    .profile-container img {
+        display: block;
+        margin: 0 auto;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 3px solid #3457D5;
+    }
+
+    .profile-container h3 {
+        text-align: center;
+        color: #00308F;
+        margin-top: 10px;
+        font-size: 1.5rem;
+    }
+
+    .profile-container p {
+        text-align: center;
+        color: #007FFF;
+        margin-bottom: 20px;
+        font-size: 1rem;
+    }
+
+    .profile-container form {
+        padding: 10px;
+    }
+
+    .profile-container legend {
+        color: #3457D5;
+        font-weight: bold;
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+
+    .profile-container button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        font-size: 1rem;
+        color: #FFFFFF;
+        background-color: #00308F;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .profile-container button:hover {
+        background-color: #007FFF;
+    }
+
+    .error-message {
+        color: red;
+        font-size: 0.9rem;
+        text-align: center;
+        margin-top: 10px;
+    }
+</style>
+
+<div class="profile-container">
+    <img src="{{ user.profile.image.url }}" alt="User Profile Picture">
+    <h3>{{ user.username }}</h3>
+    <p>{{ user.email }}</p>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <legend>Profile Information</legend>
+        {{ userform.as_p }}
+        {{ profileform.as_p }}
+        <button type="submit">Update</button>
+        <p class="error-message" id="errorMessage"></p>
+    </form>
+</div>
+
+<script>
+    // Add client-side validation
+    const form = document.querySelector("form");
+    const errorMessage = document.getElementById("errorMessage");
+
+    form.addEventListener("submit", (event) => {
+        const inputs = form.querySelectorAll("input, textarea, select");
+        let hasError = false;
+
+        inputs.forEach(input => {
+            if (input.required && !input.value.trim()) {
+                hasError = true;
+            }
+        });
+
+        if (hasError) {
+            event.preventDefault();
+            errorMessage.textContent = "Please fill out all required fields.";
+        }
+    });
+</script>
+{% endblock content %}
