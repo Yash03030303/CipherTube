@@ -1,0 +1,129 @@
+{% extends 'stream/base.html' %}
+{% block content %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F0F8FF;
+            margin: 0;
+            padding: 0;
+        }
+
+        .profile-section {
+            display: flex;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .profile-section img {
+            border-radius: 50%;
+            border: 2px solid #00308F;
+            width: 60px;
+            height: 60px;
+            margin-right: 15px;
+        }
+
+        .profile-section h12 {
+            font-size: 1.2em;
+            color: #00308F;
+            margin: 0;
+        }
+
+        h1 {
+            color: #007FFF;
+            margin: 20px;
+        }
+
+        h12 {
+            color: #3457D5;
+            font-size: 0.9em;
+            margin: 10px 20px;
+        }
+
+        p {
+            color: #333;
+            font-size: 1em;
+            margin: 20px;
+        }
+
+        .actions {
+            margin: 20px;
+        }
+
+        .actions a {
+            text-decoration: none;
+            font-size: 0.9em;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .actions .btn-secondary {
+            background-color: #007FFF;
+            color: #FFFFFF;
+        }
+
+        .actions .btn-secondary:hover {
+            background-color: #3457D5;
+        }
+
+        .actions .btn-danger {
+            background-color: #FF4C4C;
+            color: #FFFFFF;
+        }
+
+        .actions .btn-danger:hover {
+            background-color: #E63939;
+        }
+
+        video {
+            display: block;
+            margin: 20px auto;
+            max-width: 90%;
+            border: 2px solid #00308F;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .profile-section img {
+                width: 50px;
+                height: 50px;
+            }
+
+            .actions a {
+                font-size: 0.8em;
+                padding: 6px 10px;
+            }
+        }
+    </style>
+    <div class="profile-section">
+        <img src="{{ object.streamer.profile.image.url }}" alt="Streamer Profile">
+        <h12>{{ object.streamer.username }}</h12>
+    </div>
+    <div>
+        <h1>{{ object.title }}</h1>
+        <h12>The video was uploaded on {{ object.upload_date }}</h12>
+        <p>{{ object.description }}</p>
+        {% if object.streamer == user %}
+            <div class="actions">
+                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'stream:video-update' object.id %}">Update</a>
+                <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'stream:video-delete' object.id %}">Delete</a>
+            </div>
+        {% endif %}
+        <video controls controlslist="nodownload">
+            <source src="{% url 'serve-secure-video' video.video.name %}" type="video/mp4">
+        </video>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const videos = document.querySelectorAll("video");
+            videos.forEach(video => {
+                video.setAttribute("controlsList", "nodownload");
+            });
+        });
+    </script>
+{% endblock content %}

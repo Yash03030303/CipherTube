@@ -1,0 +1,110 @@
+{% extends 'stream/base.html' %}
+{% block content %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F0F8FF;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #00308F;
+            margin: 20px 0;
+        }
+
+        .video-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .card {
+            width: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #FFFFFF;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .card img {
+            border-radius: 50%;
+            margin: 10px;
+        }
+
+        .card a {
+            text-decoration: none;
+            color: #007FFF;
+            font-weight: bold;
+        }
+
+        .card a:hover {
+            color: #3457D5;
+        }
+
+        .card h5 {
+            color: #00308F;
+            margin: 10px 0;
+        }
+
+        .card p {
+            color: #555;
+            margin: 10px;
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: #00308F;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                width: 100%;
+            }
+        }
+    </style>
+    <div>
+        <h1>Video App</h1>
+        <div class="video-container">
+            {% for item in videos %}
+            <div class="card">
+                <div style="display: flex; align-items: center; padding: 10px;">
+                    <img src="{{ item.streamer.profile.image.url }}" width="50" height="50" alt="Streamer">
+                    <div style="margin-left: 10px;">
+                        <a href="{% url 'stream:user-videos' item.streamer.username %}">{{ item.streamer }}</a>
+                        <div style="font-size: 0.8em; color: #7CB9E8;">{{ item.upload_date }}</div>
+                    </div>
+                </div>
+                <video controls>
+                    <source src="{{ item.video.url }}" type="video/mp4">
+                </video>
+                <div class="card-body">
+                    <h5><a href="{% url 'stream:video-detail' item.id %}">{{ item.title }}</a></h5>
+                    <p>{{ item.description }}</p>
+                </div>
+                <hr>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}
