@@ -5,7 +5,7 @@ CipherTube is a feature-rich video sharing platform built with **HTML**, **CSS**
 ## 🌟 Features
 
 - 🔓 **Free & Premium Content**
-  - Free videos accessible to all users.
+  - Free videos accessible to all logged in users.
   - Premium content available after secure payment via Razorpay.
 
 - 💳 **Razorpay Payment Integration**
