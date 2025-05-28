@@ -38,7 +38,6 @@ CipherTube is a feature-rich video sharing platform built with **HTML**, **CSS**
 - **Backend**: Django (Python)
 - **Database**: MySQL
 - **Payments**: Razorpay Integration
-- **Hosting**: (e.g., Render, Heroku, or custom VPS)
 
 ## 🚀 Installation & Setup
 
